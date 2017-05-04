@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - loaders - OBJ loader</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #fff;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: #fff;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+		</style>
+	</head>
+
+	<body>
+		<script src="lib/three_js/build/three.js"></script>
+		<script src="lib/three_js/examples/js/loaders/OBJLoader.js"></script>
+		<script src="lib/three_js/examples/js/controls/OrbitControls.js"></script>
+		<script src="lib/FileSaver_js/FileSaver.min.js"></script>
+		<script src="lib/canvas-toBlob_js/canvas-toBlob.js"></script>
+		<script src="js/ObjCanvas.js"></script>
+
+		<div id="c" style="display:table">
+			<div id="containerScene" style="display:table-cell;width:512px;height:512px;border:solid 10px #ff0000"></div>
+			<div class="space" style="display:table-cell;width:64px;"></div>
+			<div id="containerDepthMap" style="display:table-cell;width:512px;height:512px;border:solid 10px #ff0000"></div>
+		</div>
+
+		<script>
+		
+			// OK
+			//var OBJ_PATH = 'data/cat.obj';
+			//var OBJ_PATH = 'data/ROUND_SOFA.obj';
+			//var OBJ_PATH = 'data/Cube.obj';
+			//var OBJ_PATH = 'data/Sphere.obj';
+			//var OBJ_PATH = 'data/Pyramid3.obj';
+			//var OBJ_PATH = 'data/Pyramid7.obj';
+			//var OBJ_PATH = 'data/Cylinder.obj';
+			//var OBJ_PATH = 'data/Cone.obj';
+			//var OBJ_PATH = 'data/HalfSphere.obj';
+			//var OBJ_PATH = 'data/Torus.obj';
+			//var OBJ_PATH = 'data/Tube1.obj';
+			//var OBJ_PATH = 'data/Tube2.obj';
+			//var OBJ_PATH = 'data/Heart.obj';
+			//var OBJ_PATH = 'data/Star.obj';
+			var OBJ_PATH = 'data/Icosahedron.obj';
+			
+			
+			
+
+			//var OBJ_PATH = 'data/Sink.obj';
+			//var OBJ_PATH = 'data/Rabbit.obj';
+
+			var arObjPath = [
+			//	'data/cat.obj',
+				'data/ROUND SOFA.obj',
+			//	'data/Sink.obj',
+			//	'data/Rabbit.obj'
+			];
+
+			// NG
+			//var OBJ_PATH = 'obj/male02/male02.obj';
+			//var OBJ_PATH = 'data/Sample.obj';
+			//var OBJ_PATH = 'data/ROUND SOFA.obj';
+			//var OBJ_PATH = 'data/Book.obj';
+			//var OBJ_PATH = 'data/book_simple.obj';
+			
+			var TEXTURE_PATH = 'textures/UV_Grid_Sm.jpg';
+			var bLoadTexture = false;
+		
+			// 表示領域コンテナとなるDIV
+			var containerScene = document.getElementById( 'containerScene' );
+			var containerDepthMap = document.getElementById( 'containerDepthMap' );
+
+			var canvasScene = new ObjCanvas(containerScene);
+			var canvasDepthMap = new ObjCanvas(containerDepthMap);
+
+			canvasScene.loadObjFile(OBJ_PATH, {});
+			canvasDepthMap.loadObjFile(OBJ_PATH, {"bDepthMap":true});
+
+			canvasScene.animate();
+			canvasDepthMap.animate();
+
+			document.onkeydown = function (e){
+				if(!e) e = window.event; // レガシー
+
+				var key = e.keyCode;
+				if (key == 83) { // 's'
+					canvasScene.save();
+					canvasDepthMap.save();
+				}
+				if (key == 65) { // 'a'
+				
+					var arDistRatio = [
+						1.0,
+						1.5,
+						2.5,
+						4.0,
+					];
+				
+					for (var i=0;i<arDistRatio.length;i++) {
+						var distRatio = arDistRatio[i];
+						canvasScene.autoSave(distRatio);
+						canvasDepthMap.autoSave(distRatio);
+					}
+					
+					/*
+					// 複数obj自動保存
+					for (var i=0;i<arObjPath.length;i++) {
+						var path = arObjPath[i];
+
+						canvasScene.loadObjFile(path, {});
+						canvasDepthMap.loadObjFile(path, {"bDepthMap":true});
+						
+						canvasScene.autoSave();
+						canvasDepthMap.autoSave();
+					}
+					*/
+				}
+			};
+
+			
+		</script>
+
+	</body>
+</html
