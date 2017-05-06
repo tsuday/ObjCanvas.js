@@ -12,7 +12,10 @@ SampleApp needs to be run on application server(e.g. Apache Tomcat).
 
 ObjCanvas requires:
 * Three.js
+* OBJLoader(Contained in examples for Three.js)
+* OrbitControls(Contained in examples for Three.js)
+* Canvas-toBlob.js
+* FileSaver.js
 
 SampleApp requires:
-* FileSaver.js
-* Canvas-toBlob.js
+* Libraries mentioned above
