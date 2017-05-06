@@ -2,6 +2,7 @@
  * Load and draw *.obj file on canvas, and save as image.
  * *.obj file can be loaded as contour or depth map.
  *
+ * @constructor
  * @param divEle {object} div element to draw
  */
 var ObjCanvas = function(divEle) {
@@ -68,7 +69,9 @@ var ObjCanvas = function(divEle) {
 };
 
 /**
- * Save shown on canvas as image
+ * Save what is shown on canvas as image.
+ *
+ * @param [fileName] {string} File name of saved image. Default value is "a.png".
  */
 ObjCanvas.prototype.save = function(fileName) {
 
@@ -94,6 +97,9 @@ ObjCanvas.prototype.save = function(fileName) {
 
 };
 
+/**
+ * Event handler for window resize.
+ */
 ObjCanvas.prototype.onWindowResize = function () {
 	this._windowHalfX = this._containerSizeX / 2;
 	this._windowHalfY = this._containerSizeY / 2;
@@ -102,12 +108,17 @@ ObjCanvas.prototype.onWindowResize = function () {
 	this._renderer.setSize( this._containerSizeX, this._containerSizeY );
 };
 
+/**
+ * Event handler for mouse move.
+ */
 ObjCanvas.prototype.onDocumentMouseMove = function ( event ) {
 	this._mouseX = ( event.clientX - this._windowHalfX ) / 2;
 	this._mouseY = ( event.clientY - this._windowHalfY ) / 2;
 };
 
-
+/**
+ * Request to animate and redraw.
+ */
 ObjCanvas.prototype.animate = function() {
 	//requestAnimationFrame( this.animate );
 	// http://stackoverflow.com/questions/22039180/failed-to-execute-requestanimationframe-on-window-the-callback-provided-as
@@ -116,6 +127,9 @@ ObjCanvas.prototype.animate = function() {
 	this._controls.update();
 };
 
+/**
+ * Conduct rendering.
+ */
 ObjCanvas.prototype.render = function () {
 	this._scene.position.y = this._scene.position.y + 0.3;
 	this._camera.lookAt( this._scene.position );
@@ -219,6 +233,7 @@ ObjCanvas.prototype.loadObjFile = function(filePath, options) {
  * Load Uint8Array as an Object.<br>
  *
  * @param array {Uint8Array} Array obtained from depth map image.
+ * @deprecated This method is under development.
  */
 ObjCanvas.prototype.loadUint8Array = function (array) {
 	var _this = this;
@@ -349,12 +364,12 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 		}
 	}
 	
-	// •\–Ê‚Æ— –Ê‚ÌŠÔ
-	// TODO:–@ü‚Ì•ûŒü‚ğl‚¦‚é‚Ì‚ª–Ê“|‚È‚Ì‚Å—¼–Ê“ü‚ê‚Ä‚¢‚é
+	// è¡¨é¢ã¨è£é¢ã®é–“
+	// TODO:æ³•ç·šã®æ–¹å‘ã‚’è€ƒãˆã‚‹ã®ãŒé¢å€’ãªã®ã§ä¸¡é¢å…¥ã‚Œã¦ã„ã‚‹
 	for(var y = 1 ; y < 640 - 1 ; y++) {
 		for(var x = 1 ; x < 640 - 1 ; x++) {
 			if (geomIndex[0][x][y] && (geomIndex[0][x-1][y]==undefined || geomIndex[0][x][y-1]==undefined || geomIndex[0][x+1][y]==undefined || geomIndex[0][x][y+1]==undefined)) {
-				// ‰¡Ec‚Å‚Â‚È‚ª‚é‚È‚ç‚»‚¿‚ç‚ğ—Dæ
+				// æ¨ªãƒ»ç¸¦ã§ã¤ãªãŒã‚‹ãªã‚‰ãã¡ã‚‰ã‚’å„ªå…ˆ
 				var ix, iy;
 				if (geomIndex[0][x-1][y]) {
 					ix = x-1; iy = y;
@@ -383,7 +398,7 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 				);
 			}
 			if (geomIndex[0][x][y] && (geomIndex[0][x-1][y-1]==undefined || geomIndex[0][x+1][y-1]==undefined || geomIndex[0][x-1][y+1]==undefined || geomIndex[0][x+1][y+1]==undefined)) {
-				// ‰¡Ec‚Å‚Â‚È‚ª‚é‚È‚ç‚»‚¿‚ç‚ğ—Dæ
+				// æ¨ªãƒ»ç¸¦ã§ã¤ãªãŒã‚‹ãªã‚‰ãã¡ã‚‰ã‚’å„ªå…ˆ
 				var ix, iy;
 				if (geomIndex[0][x-1][y-1]) {
 					ix = x-1; iy = y-1;
@@ -487,6 +502,9 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
  * Add contours to objects drawn on canvas(webgl).
  * Canvas with contour is passed to the callback as argument.
  *
+ * @param canvas {canvas} Canvas contours are added.
+ * @param callback {function} Callback function to use canvas with contour.
+ *     This function takes one argument(canvas).
  * @private
  */
 ObjCanvas.prototype.addContourTo2DCanvas = function (canvas, callback) {
@@ -512,7 +530,6 @@ ObjCanvas.prototype.addContourTo2DCanvas = function (canvas, callback) {
 				}
 			}
 		};
-
 
 		// Add contour by checking if each pixel needs to be overwritten
 		for (var y = 0; y < height; ++y) {
@@ -565,7 +582,7 @@ ObjCanvas.prototype.addContourTo2DCanvas = function (canvas, callback) {
 
 
 /**
- * Save multiple images seen from different angles automatically.
+ * Save multiple images seen from different 26 angles automatically.
  *
  * @param [distRatio] {number} Ratio multiplied to distance from camera to object.
  *     The default value is 1.0.
