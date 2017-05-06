@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Sample App for ObjCanvas</title>
+		<title>Sample Application for ObjCanvas.js</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -75,12 +75,24 @@
 	</head>
 
 	<body>
-		<h1>Sample App for ObjCanvas</h1>
+		<h1>Sample Application for ObjCanvas.js</h1>
 		<div />
 		<div id="c" style="display:table">
 			<div id="containerScene" style="display:table-cell;width:512px;height:512px;border:solid 10px #ff0000"></div>
 			<div class="space" style="display:table-cell;width:64px;"></div>
 			<div id="containerDepthMap" style="display:table-cell;width:512px;height:512px;border:solid 10px #ff0000"></div>
 		</div>
+		
+		<ul>
+			<li>This application load <i>Cube.obj</i> and draw in two canvases above.</li>
+			<ul>
+				<li>Left : An object is rendered as 3D-object. To make it easy to recognize, faces are drawn in green color.</li>
+				<li>Right: An object is rendered as Depth Map.</li>
+			</ul>
+			<li>You can rotate objects shown on canvas.</li>
+			<li>Pressing 's' key, objects shown on both sides are saved as png file. Only contours without green color are saved for left canvas.</li>
+			<li>Pressing 'a' key, view points are automatically changed and saved as png file. Please note that in default sample implementation, distance between viewpoints and objects also changed and more than one hundred images are saved.</li>
+		</ul>
+		
 	</body>
 </html
