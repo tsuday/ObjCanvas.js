@@ -7,7 +7,7 @@
 		<style>
 			body {
 				background-color: #fff;
-				margin: 0px;
+				margin: 16px;
 				overflow: hidden;
 			}
 		</style>
@@ -34,29 +34,29 @@
 				canvasScene.animate();
 				canvasDepthMap.animate();
 
-				document.onkeydown = function (e){
-					if(!e) e = window.event; // legacy
+				// setup button click event to download 1 contour and depthmap image
+				var download1ImageButton = document.getElementById("Download1ImageButton");
+				download1ImageButton.onclick = function () {
+					canvasScene.save();
+					canvasDepthMap.save();
+				};
 
-					var key = e.keyCode;
-					if (key == 83) { // 's' key
-						canvasScene.save();
-						canvasDepthMap.save();
-					}
-
-					if (key == 65) { // 'a' key
-						var arDistRatio = [
-							1.0,
-							1.5,
-							2.5,
-							4.0,
-						];
-						for (var i=0;i<arDistRatio.length;i++) {
-							var distRatio = arDistRatio[i];
-							canvasScene.autoSave(distRatio);
-							canvasDepthMap.autoSave(distRatio);
-						}
+				// setup button click event to download 26 contour and depthmap images
+				var download26ImagesButton = document.getElementById("Download26ImagesButton");
+				var arDistRatio = [
+					1.0,
+					1.5,
+					2.5,
+					4.0,
+				];
+				download26ImagesButton.onclick = function () {
+					for (var i=0;i<arDistRatio.length;i++) {
+						var distRatio = arDistRatio[i];
+						canvasScene.autoSave(distRatio);
+						canvasDepthMap.autoSave(distRatio);
 					}
 				};
+
 			};
 		</script>
 	</head>
@@ -64,11 +64,14 @@
 	<body>
 		<h1>Sample Application for ObjCanvas.js</h1>
 		<div />
-		<div id="c" style="display:table">
+		<div id="c" style="display:table;margin-bottom:24px;">
 			<div id="containerScene" style="display:table-cell;width:512px;height:512px;border:solid 10px #ff0000"></div>
 			<div class="space" style="display:table-cell;width:64px;"></div>
 			<div id="containerDepthMap" style="display:table-cell;width:512px;height:512px;border:solid 10px #ff0000"></div>
 		</div>
+		
+		<input type="button" value="Download 1 Contour and DepthMap Image" id="Download1ImageButton">
+		<input type="button" value="Download 26 Contour and DepthMap Images" id="Download26ImagesButton">
 		
 		<ul>
 			<li>This application load <i>Cube.obj</i> and draw in two canvases above.</li>
