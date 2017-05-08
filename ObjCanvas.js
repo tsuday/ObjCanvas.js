@@ -71,12 +71,12 @@ var ObjCanvas = function(divEle) {
 /**
  * Save what is shown on canvas as image.
  *
- * @param [fileName] {string} File name of saved image. Default value is "a.png".
+ * @param [fileName] {string} File name of saved image. Default value is object name with extension "png".
  */
 ObjCanvas.prototype.save = function(fileName) {
 
 	if (!fileName) {
-		fileName = "a.png";
+		fileName = this.getObjectName() + ".png";
 	}
 
 	var cvs = this._divEle.getElementsByTagName("canvas")[0];
