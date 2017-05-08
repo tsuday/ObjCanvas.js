@@ -655,3 +655,13 @@ ObjCanvas.prototype.autoSave = function(distRatio) {
 
 	console.log("end autoSave:" + this._objName);
 };
+
+/**
+ * Returns name of object.<br>
+ * When object was loaded from *.obj file, this function will return file name of it.
+ *
+ * @return {string} Name of object
+ */
+ObjCanvas.prototype.getObjectName = function() {
+	return this._objName;
+};
