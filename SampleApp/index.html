@@ -10,16 +10,6 @@
 				margin: 0px;
 				overflow: hidden;
 			}
-			#info {
-				color: #fff;
-				position: absolute;
-				top: 10px;
-				width: 100%;
-				text-align: center;
-				z-index: 100;
-				display:block;
-			}
-			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
 		</style>
 		<script src="lib/three_js/build/three.js"></script>
 		<script src="lib/three_js/examples/js/loaders/OBJLoader.js"></script>
@@ -30,9 +20,6 @@
 		<script>
 			var OBJ_PATH = 'data/Cube.obj';
 
-			var TEXTURE_PATH = 'textures/UV_Grid_Sm.jpg';
-			var bLoadTexture = false;
-		
 			window.onload = function () {
 				// DIV as a container for drawing canvas
 				var containerScene = document.getElementById( 'containerScene' );
