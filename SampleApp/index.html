@@ -18,7 +18,7 @@
 		<script src="lib/canvas-toBlob_js/canvas-toBlob.js"></script>
 		<script src="js/ObjCanvas.js"></script>
 		<script>
-			var OBJ_PATH = 'data/Cube.obj';
+			var OBJ_PATH = 'data/Multi1.obj';
 
 			window.onload = function () {
 				// DIV as a container for drawing canvas
@@ -37,8 +37,8 @@
 				// setup button click event to download 1 contour and depthmap image
 				var download1ImageButton = document.getElementById("Download1ImageButton");
 				download1ImageButton.onclick = function () {
-					canvasScene.save();
-					canvasDepthMap.save();
+					canvasScene.save(canvasScene.getObjectName() + "_s.png");
+					canvasDepthMap.save(canvasDepthMap.getObjectName() + "_d.png");
 				};
 
 				// setup button click event to download 26 contour and depthmap images
