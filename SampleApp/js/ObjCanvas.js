@@ -143,7 +143,9 @@ ObjCanvas.prototype.render = function () {
  *
  * @param filePath {string} file path
  * @param options {object} option settings<br>
- *            options.bDepthMap {boolean} true if you want to draw as depth map
+ *            options.bDepthMap {boolean} true if you want to draw as depth map.<br>
+ *            options.thresholdAngle {number} Threshold angle(degree) for edges to be drawn as contour.
+ *                Default value is 15.0.<br>
  */
 ObjCanvas.prototype.loadObjFile = function(filePath, options) {
 	console.log("start loadObjFile:" + this._objName);
@@ -160,15 +162,19 @@ ObjCanvas.prototype.loadObjFile = function(filePath, options) {
 	}
 	this._bDepthMap = bDepthMap;
 
+	// Threshold angle to detect contour(degree)
+	if (options && options.thresholdAngle) {
+		this.thresholdAngle = options.thresholdAngle;
+	} else {
+		this.thresholdAngle = 15.0;
+	}
+
 
 	// Manager for load processing
 	var manager = new THREE.LoadingManager();
 	manager.onProgress = function ( item, loaded, total ) {
 		console.log( item, loaded, total );
 	};
-	
-	// Threshold angle to detect contour(degree)
-	var thresholdAngle = 15.0;//40.0;
 
 	// model
 	// load OBJ file
@@ -189,7 +195,7 @@ ObjCanvas.prototype.loadObjFile = function(filePath, options) {
 					child.material = depthMaterial;
 				} else {
 					// Draw Contour
-					var eGeometry = new THREE.EdgesGeometry( child.geometry, thresholdAngle );
+					var eGeometry = new THREE.EdgesGeometry( child.geometry, this.thresholdAngle );
 					var eMaterial = new THREE.LineBasicMaterial( { color: 0x0000000, linewidth: 8 } );
 					edges = new THREE.LineSegments( eGeometry, eMaterial );
 					child.add(edges);
