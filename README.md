@@ -20,7 +20,9 @@ You can import _ObjCanvas.js_ by the ways below:
 ### Options
 ObjCanvas.js has options below:
 * Object can be drawn as Depth Map
-* Options are going to be added
+* Threshold angle drawn as contour
+
+Please see JsDoc for more details.
 
 ## Sample Application
 This project contains sample application _SampleApp_ for reference.<br>
