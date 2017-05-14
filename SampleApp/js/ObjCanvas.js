@@ -195,7 +195,7 @@ ObjCanvas.prototype.loadObjFile = function(filePath, options) {
 					child.material = depthMaterial;
 				} else {
 					// Draw Contour
-					var eGeometry = new THREE.EdgesGeometry( child.geometry, this.thresholdAngle );
+					var eGeometry = new THREE.EdgesGeometry( child.geometry, _this.thresholdAngle );
 					var eMaterial = new THREE.LineBasicMaterial( { color: 0x0000000, linewidth: 8 } );
 					edges = new THREE.LineSegments( eGeometry, eMaterial );
 					child.add(edges);
