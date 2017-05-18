@@ -65,7 +65,6 @@ var ObjCanvas = function(divEle) {
 	divEle.appendChild( this._renderer.domElement );
 
 	document.addEventListener( 'mousemove', this.onDocumentMouseMove, false );
-	window.addEventListener( 'resize', this.onWindowResize, false );
 };
 
 /**
@@ -95,17 +94,6 @@ ObjCanvas.prototype.save = function(fileName) {
 		}, "image/png");
 	}
 
-};
-
-/**
- * Event handler for window resize.
- */
-ObjCanvas.prototype.onWindowResize = function () {
-	this._windowHalfX = this._containerSizeX / 2;
-	this._windowHalfY = this._containerSizeY / 2;
-	this._camera.aspect = this._containerSizeX / this._containerSizeY;
-	this._camera.updateProjectionMatrix();
-	this._renderer.setSize( this._containerSizeX, this._containerSizeY );
 };
 
 /**
