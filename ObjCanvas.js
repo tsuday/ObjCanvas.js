@@ -241,11 +241,17 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 
 	console.log(width, height);
 
+	// pixel whose color is similar to white will be clipped to white
+	var thClip = 10;
 
 	var arMax = -1;
 	var arMin = 256;
 	for (var i=0;i<array.length;i++) {
-		if (array[i]===0) continue;
+		if (array[i] < thClip) {
+			array[i] = 0;
+			continue;
+		}
+
 		arMax = arMax < array[i] ? array[i] : arMax;
 		arMin = arMin > array[i] ? array[i] : arMin;
 	}
@@ -679,6 +685,7 @@ ObjCanvas.prototype.getObjectName = function() {
 ObjCanvas.prototype.clear = function() {
 
 	while(this._scene.children.length > 0){
+		console.log(this._scene.children[0]);
 		this._scene.remove(this._scene.children[0]);
 	}
 };
