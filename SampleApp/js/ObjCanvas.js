@@ -4,8 +4,10 @@
  *
  * @constructor
  * @param divEle {object} div element to draw
+ * @param [bMouseControlOutside] {boolean} Flag to control object by mouse operations.
+ *     Default value is false.
  */
-var ObjCanvas = function(divEle) {
+var ObjCanvas = function(divEle, bMouseControlOutside) {
 	this._divEle = divEle
 
 	this._mouseX = 0, this._mouseY = 0;
@@ -22,7 +24,7 @@ var ObjCanvas = function(divEle) {
 	this._camera.position.z = this._cameraPosZ;
 
 	// control
-	this._controls = new THREE.OrbitControls(this._camera);
+	this._controls = new THREE.OrbitControls(this._camera, bMouseControlOutside ? undefined : divEle);
 
 	// scene
 	this._scene = new THREE.Scene();
