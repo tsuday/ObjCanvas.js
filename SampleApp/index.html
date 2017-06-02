@@ -43,13 +43,20 @@
 
 				// setup button click event to download 26 contour and depthmap images
 				var download26ImagesButton = document.getElementById("Download26ImagesButton");
+				download26ImagesButton.onclick = function () {
+					canvasScene.autoSave(1.0);
+					canvasDepthMap.autoSave(1.0);
+				};
+
+				// setup button click event to download 104 contour and depthmap images
+				var download104ImagesButton = document.getElementById("Download104ImagesButton");
 				var arDistRatio = [
 					1.0,
 					1.5,
 					2.5,
 					4.0,
 				];
-				download26ImagesButton.onclick = function () {
+				download104ImagesButton.onclick = function () {
 					for (var i=0;i<arDistRatio.length;i++) {
 						var distRatio = arDistRatio[i];
 						canvasScene.autoSave(distRatio);
@@ -72,6 +79,7 @@
 		
 		<input type="button" value="Download 1 Contour and DepthMap Image" id="Download1ImageButton">
 		<input type="button" value="Download 26 Contour and DepthMap Images" id="Download26ImagesButton">
+		<input type="button" value="Download 104 Contour and DepthMap Images" id="Download104ImagesButton">
 		
 		<ul>
 			<li>This application load <i>Cube.obj</i> and draw in two canvases above.</li>
