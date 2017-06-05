@@ -702,8 +702,19 @@ ObjCanvas.prototype.getObjectName = function() {
  */
 ObjCanvas.prototype.clear = function() {
 
+	// remove all children(mesh and lights)
+	var ambient = null
 	while(this._scene.children.length > 0){
+		if (this._scene.children[0].type === "AmbientLight") {
+			ambient = this._scene.children[0];
+		}
 		console.log(this._scene.children[0]);
 		this._scene.remove(this._scene.children[0]);
 	}
+
+	// restore ambient light
+	if (ambient) {
+		this._scene.add(ambient);
+	}
+
 };
