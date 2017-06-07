@@ -520,6 +520,10 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 	// last from here
 	var directionalLight = new THREE.DirectionalLight( 0x20ff20 );
 	directionalLight.position.set( -1000, 1000, 0 );
+	
+	console.log(directionalLight);
+	
+	_this._directionalLight = directionalLight;
 	_this._scene.add( directionalLight );
 
 
@@ -528,6 +532,20 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 	_this._camera.far = 7200;
 	_this._camera.updateProjectionMatrix();
 };
+
+/**
+ * Set color of directional light.
+ *
+ * @param rgb {number} RGB color value to set. (e.g. ffffff for white.)
+ */
+ObjCanvas.prototype.setDirectionalLightColor = function (rgb) {
+	if (!this._directionalLight) {
+		return;
+	}
+	
+	this._directionalLight.color = new THREE.Color(rgb);
+}
+
 
 /*
  * Add contours to objects drawn on canvas(webgl).
