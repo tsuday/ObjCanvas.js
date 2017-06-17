@@ -26,7 +26,7 @@ Please see JsDoc for more details.
 
 ## Sample Application
 This project contains sample application _SampleApp_ for reference.<br>
-SampleApp needs to be run on application server(e.g. _Apache Tomcat_).
+SampleApp needs to be run on web server(e.g. _Apache_ or _nginx_).
 
 
 ## Requirements
