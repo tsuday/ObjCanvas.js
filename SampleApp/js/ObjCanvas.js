@@ -528,9 +528,9 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 	_this._scene.add( directionalLight );
 
 
-	_this._camera.position.z = 1000;
+	_this._camera.position.z = 2000;
 	_this._camera.near = 0.1;
-	_this._camera.far = 7200;
+	_this._camera.far = 8000;
 	_this._camera.updateProjectionMatrix();
 };
 
