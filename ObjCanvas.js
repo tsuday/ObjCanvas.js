@@ -535,6 +535,31 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 };
 
 /**
+ * Returns z coordinate of camera.<br>
+ *
+ * @return {Number} z coordinate of camera
+ */
+ObjCanvas.prototype.getCameraPositionZ = function () {
+	return this._camera.position.z;
+};
+
+/**
+ * Set z coordinate of camera.<br>
+ *
+ * @param z {Number} z coordinate of camera
+ * @param [isKeepScene] {boolean} Set z coordinate without updating scene.
+ *     Default value is false.
+ */
+ObjCanvas.prototype.setCameraPositionZ = function (z, isKeepScene) {
+	var isKeepScene = (isKeepScene === undefined || isKeepScene === null) ? false : isKeepScene;
+	
+	this._camera.position.z = z;
+	if (isKeepScene) {
+		this._camera.updateProjectionMatrix();
+	}
+};
+
+/**
  * Set color of directional light.
  *
  * @param rgb {number} RGB color value to set. (e.g. ffffff for white.)
