@@ -464,12 +464,14 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 
 	_this._scene.add( mesh );
 
-	// last from here
-	var directionalLight = new THREE.DirectionalLight( 0x808080 );
-	directionalLight.position.set( -1000, 1000, 0 );
-	
-	_this._directionalLight = directionalLight;
-	_this._scene.add( directionalLight );
+	// add directional light if scene does not contain it
+	if (_this._scene.children.indexOf(_this._directionalLight) < 0) {
+		var directionalLight = new THREE.DirectionalLight( 0x808080 );
+		directionalLight.position.set( -1000, 1000, 0 );
+		
+		_this._directionalLight = directionalLight;
+		_this._scene.add( directionalLight );
+	}
 
 	_this._camera.position.z = 2000;
 	_this._camera.near = 0.1;
