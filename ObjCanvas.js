@@ -245,6 +245,9 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 	this._objName = "Load from depth data";
 	this._bDepthMap = false;
 
+	// use copy to avoid influence by overwriting elements in this method
+	array = array.slice(0, array.length)
+
 	var width = parseInt(this._divEle.style.width, 10);
 	var height = parseInt(this._divEle.style.height, 10);
 
