@@ -226,6 +226,12 @@ ObjCanvas.prototype.loadObjFile = function(filePath, options) {
 	console.log("end loadObjFile:" + this._objName);
 };
 
+/*
+ * Three.js Mesh data created in loadUint8Array method.
+ * @private
+ */
+ObjCanvas.prototype._loadUint8ArrayMesh = null;
+
 /**
  * Load Uint8Array as 3D-Object.<br>
  *
@@ -458,11 +464,13 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 	geometry.computeFaceNormals();
 	geometry.computeVertexNormals();
 
-	var mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial() );
-	//var mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial() );
-	//var mesh = new THREE.Mesh( geometry, new THREE.MeshDepthMaterial() );
-
+	if (_this._scene.children.indexOf(_this._loadUint8ArrayMesh) > -1) {
+		// remove mesh from scene added in previous call
+		_this._scene.remove(_this._loadUint8ArrayMesh);
+	}
 	_this._scene.add( mesh );
+	// store to remove in next call
+	_this._loadUint8ArrayMesh = mesh;
 
 	// add directional light if scene does not contain it
 	if (_this._scene.children.indexOf(_this._directionalLight) < 0) {
