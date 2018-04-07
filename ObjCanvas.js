@@ -226,6 +226,26 @@ ObjCanvas.prototype.loadObjFile = function(filePath, options) {
 	console.log("end loadObjFile:" + this._objName);
 };
 
+/**
+ * Set ratio of number of clipped pixels to that of pixels whose values are positive at loadUint8Array.<br>
+ * <br>
+ * Argument array of loadUint8Array will contain unexpected small values,
+ * that will cause artifact in result 3D mesh data.
+ * To avoid this, loadUint8Array clips small values in array.
+ * Ratio value set by this method is used to determine threshold of clipped pixel value.
+ *
+ * @param ratio {number} Ratio to pixel
+ */
+ObjCanvas.prototype.setClipRatio = function (ratio) {
+	this._clipRatio = ratio;
+};
+
+/**
+ * Ratio of number of clipped pixels to that of pixels whose values are positive at loadUint8Array.<br>
+ * @private
+ */
+ObjCanvas.prototype._clipRatio = 0.1;
+
 /*
  * Three.js Mesh data created in loadUint8Array method.
  * @private
@@ -268,8 +288,24 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 
 	var arMax = -1;
 	var arMin = 256;
+	var countValid = 0;
 	for (var i=0;i<array.length;i++) {
 		if (array[i] < thClip) {
+			array[i] = 0;
+			continue;
+		}
+		countValid++;
+	}
+	// sort in descending order to find thredhold array element value for clipping
+	var sorted = array.slice(0, array.length);
+	sorted.sort(function(e1, e2) {
+		if( e1 > e2 ) return -1;
+		if( e1 < e2 ) return 1;
+		return 0;
+	});
+	var thVal = sorted[Math.floor(countValid*(1.0-this._clipRatio))];
+	for (var i=0;i<array.length;i++) {
+		if (array[i] < thVal) {
 			array[i] = 0;
 			continue;
 		}
