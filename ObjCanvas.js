@@ -467,6 +467,10 @@ ObjCanvas.prototype.loadUint8Array = function (array) {
 	geometry.computeFaceNormals();
 	geometry.computeVertexNormals();
 
+	var mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial() );
+	//var mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial() );
+	//var mesh = new THREE.Mesh( geometry, new THREE.MeshDepthMaterial() );
+
 	if (_this._scene.children.indexOf(_this._loadUint8ArrayMesh) > -1) {
 		// remove mesh from scene added in previous call
 		_this._scene.remove(_this._loadUint8ArrayMesh);
