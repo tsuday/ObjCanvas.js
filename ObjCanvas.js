@@ -424,20 +424,16 @@ ObjCanvas.prototype.loadUint8Array = function (array, isSmooth) {
 		}
 	}
 	
-	// 表面と裏面の間
+	// Fill space between front and back planes with meshes
 	// TODO:法線の方向を考えるのが面倒なので両面入れている
 	for(var y = 1 ; y < height - 1 ; y++) {
 		for(var x = 1 ; x < width - 1 ; x++) {
-			if (geomIndex[0][x][y] && (geomIndex[0][x-1][y]==undefined || geomIndex[0][x][y-1]==undefined || geomIndex[0][x+1][y]==undefined || geomIndex[0][x][y+1]==undefined)) {
-				// 横・縦でつながるならそちらを優先
+
+			if (geomIndex[0][x][y] && (geomIndex[0][x-1][y]==undefined || geomIndex[0][x+1][y]==undefined)) {
 				var ix = null;
 				var iy = null;
-				if (geomIndex[0][x-1][y]) {
-					ix = x-1; iy = y;
-				} else if (geomIndex[0][x][y-1]) {
+				if (geomIndex[0][x][y-1]) {
 					ix = x; iy = y-1;
-				} else if (geomIndex[0][x+1][y]) {
-					ix = x+1; iy = y;
 				} else if (geomIndex[0][x][y+1]) {
 					ix = x; iy = y+1;
 				}
@@ -460,20 +456,186 @@ ObjCanvas.prototype.loadUint8Array = function (array, isSmooth) {
 					);
 				}
 			}
-			if (geomIndex[0][x][y] && (geomIndex[0][x-1][y-1]==undefined || geomIndex[0][x+1][y-1]==undefined || geomIndex[0][x-1][y+1]==undefined || geomIndex[0][x+1][y+1]==undefined)) {
-				// 横・縦でつながるならそちらを優先
+			if (geomIndex[0][x][y] && (geomIndex[0][x][y-1]==undefined || geomIndex[0][x][y+1]==undefined)) {
 				var ix = null;
 				var iy = null;
-				if (geomIndex[0][x-1][y-1]) {
-					ix = x-1; iy = y-1;
-				} else if (geomIndex[0][x+1][y-1]) {
-					ix = x+1; iy = y-1;
-				} else if (geomIndex[0][x-1][y+1]) {
-					ix = x-1; iy = y+1;
-				} else if (geomIndex[0][x+1][y+1]) {
-					ix = x+1; iy = y+1;
+				if (geomIndex[0][x-1][y]) {
+					ix = x-1; iy = y;
+				} else if (geomIndex[0][x+1][y]) {
+					ix = x+1; iy = y;
 				}
 				if (ix != null && iy != null) {
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+			}
+
+			if (geomIndex[0][x][y] && geomIndex[0][x-1][y-1]==undefined) {
+				var ix = null;
+				var iy = null;
+				if (geomIndex[0][x][y-1]) {
+					ix = x; iy = y-1;
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+				if (geomIndex[0][x-1][y]) {
+					ix = x-1; iy = y;
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+			}
+			if (geomIndex[0][x][y] && geomIndex[0][x+1][y-1]==undefined) {
+				var ix = null;
+				var iy = null;
+				if (geomIndex[0][x][y-1]) {
+					ix = x; iy = y-1;
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+				if (geomIndex[0][x+1][y]) {
+					ix = x+1; iy = y;
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+			}
+
+			if (geomIndex[0][x][y] && geomIndex[0][x-1][y+1]==undefined) {
+				var ix = null;
+				var iy = null;
+				if (geomIndex[0][x][y+1]) {
+					ix = x; iy = y+1;
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+				if (geomIndex[0][x-1][y]) {
+					ix = x-1; iy = y;
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+			}
+
+			if (geomIndex[0][x][y] && geomIndex[0][x+1][y+1]==undefined) {
+				var ix = null;
+				var iy = null;
+				if (geomIndex[0][x][y+1]) {
+					ix = x; iy = y+1;
+					var i0 = geomIndex[0][x][y];
+					var i1 = geomIndex[1][x][y];
+					var i2 = geomIndex[0][ix][iy];
+					var i3 = geomIndex[1][ix][iy];
+					geometry.faces.push(
+						new THREE.Face3(i0, i1, i2),
+						new THREE.Face3(i1, i3, i2),
+						new THREE.Face3(i0, i2, i1),
+						new THREE.Face3(i1, i2, i3)
+					);
+					geometry.faceVertexUvs[0].push(
+						[uvs[i0], uvs[i1], uvs[i2]],
+						[uvs[i1], uvs[i3], uvs[i2]],
+						[uvs[i0], uvs[i2], uvs[i1]],
+						[uvs[i1], uvs[i2], uvs[i3]]
+					);
+				}
+				if (geomIndex[0][x+1][y]) {
+					ix = x+1; iy = y;
 					var i0 = geomIndex[0][x][y];
 					var i1 = geomIndex[1][x][y];
 					var i2 = geomIndex[0][ix][iy];
